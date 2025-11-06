@@ -1,0 +1,150 @@
+<!-- templates/emails/booking_cancellation.html -->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Booking Cancelled</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        line-height: 1.6;
+        color: #333;
+        max-width: 600px;
+        margin: 0 auto;
+        padding: 20px;
+        background-color: #f4f4f4;
+      }
+      .container {
+        background-color: #ffffff;
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+      .header {
+        background-color: #dc3545;
+        color: white;
+        padding: 30px 20px;
+        text-align: center;
+      }
+      .header h1 {
+        margin: 0;
+        font-size: 28px;
+      }
+      .content {
+        padding: 30px;
+      }
+      .booking-details {
+        background-color: #f8f9fa;
+        padding: 20px;
+        margin: 20px 0;
+        border-left: 4px solid #dc3545;
+        border-radius: 4px;
+      }
+      .detail-row {
+        display: flex;
+        justify-content: space-between;
+        padding: 10px 0;
+        border-bottom: 1px solid #e0e0e0;
+      }
+      .detail-row:last-child {
+        border-bottom: none;
+      }
+      .detail-label {
+        font-weight: bold;
+        color: #666;
+      }
+      .footer {
+        background-color: #f8f9fa;
+        padding: 20px;
+        text-align: center;
+        color: #666;
+        font-size: 12px;
+        border-top: 1px solid #e0e0e0;
+      }
+      .info-box {
+        background-color: #e7f3ff;
+        border-left: 4px solid #2196f3;
+        padding: 15px;
+        margin: 20px 0;
+        border-radius: 4px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="header">
+        <h1>Booking Cancelled</h1>
+      </div>
+
+      <div class="content">
+        <p>Dear {{ user_name }},</p>
+
+        <p>Your booking has been cancelled as requested.</p>
+
+        <div class="booking-details">
+          <h2 style="margin-top: 0; color: #dc3545">
+            Cancelled Booking Details
+          </h2>
+
+          <div class="detail-row">
+            <span class="detail-label">Booking Reference:</span>
+            <span class="detail-value"
+              ><strong>{{ booking_reference }}</strong></span
+            >
+          </div>
+
+          <div class="detail-row">
+            <span class="detail-label">Property:</span>
+            <span class="detail-value">{{ property_name }}</span>
+          </div>
+
+          <div class="detail-row">
+            <span class="detail-label">Check-in:</span>
+            <span class="detail-value">{{ check_in|date:"F d, Y" }}</span>
+          </div>
+
+          <div class="detail-row">
+            <span class="detail-label">Check-out:</span>
+            <span class="detail-value">{{ check_out|date:"F d, Y" }}</span>
+          </div>
+        </div>
+
+        <div class="info-box">
+          <h3 style="margin-top: 0; color: #2196f3">What happens next?</h3>
+          <ul style="margin: 10px 0; padding-left: 20px">
+            <li>
+              If you made a payment, a refund will be processed within 5-7
+              business days
+            </li>
+            <li>
+              You'll receive a separate email once the refund is processed
+            </li>
+            <li>The booking reference {{ booking_reference }} is now closed</li>
+          </ul>
+        </div>
+
+        <p>
+          If you cancelled by mistake or have any questions, please contact us
+          immediately:
+        </p>
+        <p style="text-align: center; margin: 20px 0">
+          <strong>Email:</strong> support@yourdomain.com<br />
+          <strong>Reference:</strong> {{ booking_reference }}
+        </p>
+
+        <p>We hope to serve you again in the future!</p>
+
+        <p style="margin-top: 30px">
+          Best regards,<br />
+          <strong>The Booking Team</strong>
+        </p>
+      </div>
+
+      <div class="footer">
+        <p>This is an automated email. Please do not reply to this message.</p>
+        <p>&copy; 2025 Your Company Name. All rights reserved.</p>
+      </div>
+    </div>
+  </body>
+</html>

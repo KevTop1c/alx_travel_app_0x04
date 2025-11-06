@@ -1,0 +1,29 @@
+INFO 2025-10-28 16:58:29,582 chapa_service 41179 6199898112 Payment initialized successfully: TXN-AC2E75515BEF4647
+INFO 2025-10-28 16:58:29,590 views 41179 6199898112 Payment initiated for booking BOOKING-20251028-9BB107 by user kev.topic001@gmail.com
+INFO 2025-10-28 16:59:18,659 chapa_service 41179 6199898112 Payment verified successfully: TXN-AC2E75515BEF4647
+INFO 2025-10-28 16:59:18,683 chapa_service 41179 6199898112 Payment TXN-AC2E75515BEF4647 marked as success.
+INFO 2025-10-28 16:59:18,734 views 41179 6199898112 Payment verified successfully: TXN-AC2E75515BEF4647 for user kev.topic001@gmail.com
+INFO 2025-10-28 16:59:21,876 tasks 41669 8367196160 Payment confirmation email sent for payment TXN-AC2E75515BEF4647
+INFO 2025-10-28 17:07:44,233 tasks 41669 8367196160 Booking confirmation email sent successfully for booking BOOKING-20251028-9BB107 to kev.topic001@gmail.com
+INFO 2025-10-28 17:27:40,441 views 53956 6193262592 Booking confirmation email task queued for booking BOOKING-20251028-B57FE8. Task ID: 63647fe0-0f9d-4394-be35-c77af715a928
+INFO 2025-10-28 17:27:43,586 tasks 41669 8367196160 Booking confirmation email sent successfully for booking BOOKING-20251028-B57FE8 to kev.topic001@gmail.com
+INFO 2025-11-06 22:17:47,592 chapa_service 89852 13221015552 Payment initialized successfully: TXN-90BA111AFA58405B
+INFO 2025-11-06 22:17:47,605 views 89852 13221015552 Payment initiated for booking BOOKING-20251106-7FD7C9 by user kev.topic001@gmail.com
+INFO 2025-11-06 22:18:39,359 chapa_service 89852 13187362816 Payment verified successfully: TXN-90BA111AFA58405B
+INFO 2025-11-06 22:18:39,374 chapa_service 89852 13187362816 Payment TXN-90BA111AFA58405B marked as success.
+INFO 2025-11-06 22:18:43,588 chapa_service 89852 13204189184 Payment verified successfully: TXN-90BA111AFA58405B
+INFO 2025-11-06 22:18:43,601 chapa_service 89852 13204189184 Payment TXN-90BA111AFA58405B marked as success.
+INFO 2025-11-06 22:19:47,614 chapa_service 89852 13187362816 Payment verified successfully: TXN-90BA111AFA58405B
+INFO 2025-11-06 22:19:47,629 chapa_service 89852 13187362816 Payment TXN-90BA111AFA58405B marked as success.
+INFO 2025-11-06 22:19:47,690 views 89852 13187362816 Payment verified successfully: TXN-90BA111AFA58405B for user kev.topic001@gmail.com
+INFO 2025-11-06 22:24:03,713 chapa_service 89852 13271494656 Payment verified successfully: TXN-90BA111AFA58405B
+INFO 2025-11-06 22:24:03,748 chapa_service 89852 13271494656 Payment TXN-90BA111AFA58405B marked as success.
+INFO 2025-11-06 22:24:03,774 views 89852 13271494656 Payment verified successfully: TXN-90BA111AFA58405B for user kev.topic001@gmail.com
+INFO 2025-11-06 22:25:46,575 chapa_service 89852 13321973760 Payment verified successfully: TXN-90BA111AFA58405B
+INFO 2025-11-06 22:25:46,600 chapa_service 89852 13321973760 Payment TXN-90BA111AFA58405B marked as success.
+INFO 2025-11-06 22:25:46,632 views 89852 13321973760 Payment verified successfully: TXN-90BA111AFA58405B for user kev.topic001@gmail.com
+INFO 2025-11-06 22:33:46,380 views 89852 6151499776 Booking confirmation email task queued for booking BOOKING-20251106-09E9DF. Task ID: 9985af27-3168-4374-b51c-a0bb55d8c871
+INFO 2025-11-06 22:37:23,918 tasks 11607 8487340032 Payment confirmation email sent for payment TXN-90BA111AFA58405B
+INFO 2025-11-06 22:37:23,998 tasks 11599 8487340032 Payment confirmation email sent for payment TXN-90BA111AFA58405B
+INFO 2025-11-06 22:37:23,998 tasks 11598 8487340032 Payment confirmation email sent for payment TXN-90BA111AFA58405B
+INFO 2025-11-06 22:37:24,135 tasks 11600 8487340032 Booking confirmation email sent successfully for booking BOOKING-20251106-09E9DF to kev.topic001@gmail.com
