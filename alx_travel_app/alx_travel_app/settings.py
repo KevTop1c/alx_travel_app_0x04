@@ -95,24 +95,30 @@ WSGI_APPLICATION = "alx_travel_app.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
-# DATABASES = {
-#     "default": {
-#         "ENGINE": "django.db.backends.mysql",
-#         "NAME": env("DB_NAME", default="alx_travel_db"),
-#         "USER": env("DB_USER", default="root"),
-#         "PASSWORD": env("DB_PASSWORD", default=""),
-#         "HOST": env("DB_HOST", default="localhost"),
-#         "PORT": env("DB_PORT", default="3306"),
-#     }
-# }
+IS_RENDER = os.environ.get("RENDER", None) is not None
 
-DATABASES = {
+if IS_RENDER:
+    DATABASES = {
     "default": dj_database_url.config(
         # Replace this value with your local database's connection string.
-        default=os.getenv("DATABASE_URL"),
+        default=os.getenv(
+            "DATABASE_URL",
+        ),
         conn_max_age=600,
     )
 }
+else:
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.mysql",
+            "NAME": env("DB_NAME", default="alx_travel_db"),
+            "USER": env("DB_USER", default="root"),
+            "PASSWORD": env("DB_PASSWORD", default=""),
+            "HOST": env("DB_HOST", default="localhost"),
+            "PORT": env("DB_PORT", default="3306"),
+        }
+    }
+
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
