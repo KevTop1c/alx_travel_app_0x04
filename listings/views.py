@@ -1,7 +1,8 @@
 """Module imports for viewsets"""
 
 import logging
-import traceback, sys
+import traceback
+import sys
 from rest_framework import viewsets, status, generics
 from rest_framework.decorators import action, api_view, permission_classes
 from rest_framework.response import Response
@@ -14,7 +15,6 @@ from django.shortcuts import get_object_or_404
 from django.db.models import Sum
 from django_filters.rest_framework import DjangoFilterBackend
 from .models import Property, Booking, Review, User, Payment
-from .decorators import swagger_safe
 from .serializers import (
     PropertyListSerializer,
     PropertyDetailSerializer,
@@ -215,6 +215,10 @@ class BookingViewSet(viewsets.ModelViewSet):
 
         POST /api/bookings/{id}/cancel/
         """
+        # Guard for Swagger schema generation
+        if getattr(self, "swagger_fake_view", False):
+            return Response()
+
         booking = self.get_object()
 
         # Verify ownership
@@ -824,8 +828,11 @@ class RetryPaymentView(generics.GenericAPIView):
 
     permission_classes = [IsAuthenticated]
 
-    @swagger_safe
     def post(self, request, transaction_id):
+        # Guard for Swagger schema generation
+        if getattr(self, "swagger_fake_view", False):
+            return Response()
+
         payment = get_object_or_404(Payment, transaction_id=transaction_id)
 
         # Verify ownership
@@ -921,8 +928,11 @@ class CancelPaymentView(generics.GenericAPIView):
 
     permission_classes = [IsAuthenticated]
 
-    @swagger_safe
     def post(self, request, transaction_id):
+        # Guard for Swagger schema generation
+        if getattr(self, "swagger_fake_view", False):
+            return Response()
+
         payment = get_object_or_404(Payment, transaction_id=transaction_id)
 
         # Verify ownership
