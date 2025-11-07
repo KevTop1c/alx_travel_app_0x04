@@ -14,6 +14,7 @@ from django.shortcuts import get_object_or_404
 from django.db.models import Sum
 from django_filters.rest_framework import DjangoFilterBackend
 from .models import Property, Booking, Review, User, Payment
+from .decorators import swagger_safe
 from .serializers import (
     PropertyListSerializer,
     PropertyDetailSerializer,
@@ -823,6 +824,7 @@ class RetryPaymentView(generics.GenericAPIView):
 
     permission_classes = [IsAuthenticated]
 
+    @swagger_safe
     def post(self, request, transaction_id):
         payment = get_object_or_404(Payment, transaction_id=transaction_id)
 
@@ -919,6 +921,7 @@ class CancelPaymentView(generics.GenericAPIView):
 
     permission_classes = [IsAuthenticated]
 
+    @swagger_safe
     def post(self, request, transaction_id):
         payment = get_object_or_404(Payment, transaction_id=transaction_id)
 
