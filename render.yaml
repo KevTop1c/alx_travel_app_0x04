@@ -40,7 +40,9 @@ services:
     plan: free
     runtime: python
     buildCommand: "./build.sh"
-    startCommand: "celery -A alx_travel_app worker --loglevel=info"
+    startCommand: >
+      bash -c "until nc -z rabbitmq 5672; do echo 'Waiting for RabbitMQ...'; sleep 3; done;
+      celery -A alx_travel_app worker --loglevel=info"
     envVars:
       - key: DATABASE_URL
         fromDatabase:
@@ -54,7 +56,9 @@ services:
     plan: free
     runtime: python
     buildCommand: "./build.sh"
-    startCommand: "celery -A alx_travel_app beat --loglevel=INFO --scheduler django_celery_beat.schedulers:DatabaseScheduler"
+    startCommand: >
+      bash -c "until nc -z rabbitmq 5672; do echo 'Waiting for RabbitMQ...'; sleep 3; done;
+      celery -A alx_travel_app beat --loglevel=INFO --scheduler django_celery_beat.schedulers:DatabaseScheduler"
     envVars:
       - key: DATABASE_URL
         fromDatabase:
