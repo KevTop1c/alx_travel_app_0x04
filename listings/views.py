@@ -375,6 +375,7 @@ class RegisterView(generics.CreateAPIView):
     """
     API endpoint for user registration.
     """
+
     queryset = User.objects.all()
     serializer_class = UserSerializer
     permission_classes = [AllowAny]
@@ -387,17 +388,21 @@ class RegisterView(generics.CreateAPIView):
         # Generate JWT tokens after registration
         refresh = RefreshToken.for_user(user)
 
-        return Response({
-            "user": UserSerializer(user).data,
-            "refresh": str(refresh),
-            "access": str(refresh.access_token),
-        }, status=status.HTTP_201_CREATED)
+        return Response(
+            {
+                "user": UserSerializer(user).data,
+                "refresh": str(refresh),
+                "access": str(refresh.access_token),
+            },
+            status=status.HTTP_201_CREATED,
+        )
 
 
 class LoginView(TokenObtainPairView):
     """
     API endpoint for obtaining JWT tokens (login).
     """
+
     serializer_class = CustomTokenObtainPairSerializer
 
 
@@ -466,11 +471,14 @@ class InitiatePaymentView(generics.CreateAPIView):
             customization=customization,
         )
 
+        logger.error("Chapa Init Result: %s", result)
+
         if result["success"]:
             # Update payment with Chapa response
-            payment.checkout_url = result["data"].get("checkout_url")
-            payment.chapa_reference = result["data"].get("tx_ref")
-            payment.chapa_response = result["data"]
+            data = result.get("data") or {}
+            payment.checkout_url = data.get("checkout_url")
+            payment.chapa_reference = data.get("tx_ref")
+            payment.chapa_response = data
             payment.save()
 
             logger.info(
