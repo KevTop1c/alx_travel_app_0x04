@@ -28,7 +28,7 @@ services:
     plan: free
     runtime: python
     buildCommand: "./build.sh"
-    startCommand: "celery -A alx_travel_app worker --loglevel=info"
+    startCommand: "celery -A alx_travel_app worker -Q emails,periodic -l info"
     envVars:
       - key: DATABASE_URL
         fromDatabase:

@@ -485,7 +485,7 @@ class InitiatePaymentView(generics.CreateAPIView):
                 status=status.HTTP_500_INTERNAL_SERVER_ERROR,
             )
 
-        logger.error("Chapa Init Result: %s", result)
+        # logger.error("Chapa Init Result: %s", result)
 
         if result["success"]:
             # Update payment with Chapa response
