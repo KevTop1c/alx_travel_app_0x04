@@ -20,32 +20,33 @@ services:
         generateValue: true
       - key: WEB_CONCURRENCY
         value: 4
-      - key: RABBITMQ_URL
+      - key: CELERY_BROKER_URL
         sync: false
 
   - type: pserv
     name: rabbitmq
     plan: free
     runtime: docker
-    dockerfilePath: ./rabbitmq.Dockerfile
+    image:
+      url: rabbitmq:3-management
     envVars:
       - key: RABBITMQ_DEFAULT_USER
-        sync: false
+        value: guest
       - key: RABBITMQ_DEFAULT_PASS
-        sync: false
+        value: guest
 
   - type: worker
     name: celery-worker
     plan: free
     runtime: python
     buildCommand: "./build.sh"
-    startCommand: "celery -A alx_travel_app worker -Q emails,periodic -l info"
+    startCommand: "celery -A alx_travel_app worker --loglevel=info"
     envVars:
       - key: DATABASE_URL
         fromDatabase:
           name: alxtraveldb
           property: connectionString
-      - key: RABBITMQ_URL
+      - key: CELERY_BROKER_URL
         sync: false
 
   - type: worker
@@ -59,5 +60,5 @@ services:
         fromDatabase:
           name: alxtraveldb
           property: connectionString
-      - key: RABBITMQ_URL
+      - key: CELERY_BROKER_URL
         sync: false
