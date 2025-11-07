@@ -1,7 +1,7 @@
 """Module imports for viewsets"""
 
 import logging
-import traceback
+import traceback, sys
 from rest_framework import viewsets, status, generics
 from rest_framework.decorators import action, api_view, permission_classes
 from rest_framework.response import Response
@@ -475,8 +475,13 @@ class InitiatePaymentView(generics.CreateAPIView):
         except Exception as e:
             logger.exception("Payment initialization failed: %s", e)
             print("TRACEBACK:", traceback.format_exc())
+            traceback.print_exc(file=sys.stdout)
             return Response(
-                {"error": "Payment initialization failed", "details": str(e)},
+                {
+                    "error": "Payment initialization failed",
+                    "details": str(e),
+                    "type": e.__class__.__name__,
+                },
                 status=status.HTTP_500_INTERNAL_SERVER_ERROR,
             )
 
