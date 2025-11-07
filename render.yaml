@@ -9,7 +9,7 @@ services:
     plan: free
     name: alx-travel-app
     runtime: python
-    buildCommand: './build.sh'
+    buildCommand: './alx_travel_app/build.sh'
     startCommand: 'python -m gunicorn alx_travel_app.asgi:application -k uvicorn.workers.UvicornWorker'
     envVars:
       - key: DATABASE_URL
