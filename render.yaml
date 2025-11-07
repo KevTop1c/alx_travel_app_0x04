@@ -9,8 +9,8 @@ services:
     plan: free
     name: alx-travel-app
     runtime: python
-    buildCommand: './build.sh'
-    startCommand: 'python -m gunicorn alx_travel_app.asgi:application -k uvicorn.workers.UvicornWorker'
+    buildCommand: "./build.sh"
+    startCommand: "python -m gunicorn alx_travel_app.asgi:application -k uvicorn.workers.UvicornWorker"
     envVars:
       - key: DATABASE_URL
         fromDatabase:
@@ -20,3 +20,44 @@ services:
         generateValue: true
       - key: WEB_CONCURRENCY
         value: 4
+      - key: RABBITMQ_URL
+        sync: false
+
+  - type: pserv
+    name: rabbitmq
+    plan: free
+    runtime: docker
+    dockerfilePath: ./rabbitmq.Dockerfile
+    envVars:
+      - key: RABBITMQ_DEFAULT_USER
+        sync: false
+      - key: RABBITMQ_DEFAULT_PASS
+        sync: false
+
+  - type: worker
+    name: celery-worker
+    plan: free
+    runtime: python
+    buildCommand: "./build.sh"
+    startCommand: "celery -A alx_travel_app worker -Q emails,periodic -l info"
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: alxtraveldb
+          property: connectionString
+      - key: RABBITMQ_URL
+        sync: false
+
+  - type: worker
+    name: celery-beat
+    plan: free
+    runtime: python
+    buildCommand: "./build.sh"
+    startCommand: "celery -A alx_travel_app beat --loglevel=INFO --scheduler django_celery_beat.schedulers:DatabaseScheduler"
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: alxtraveldb
+          property: connectionString
+      - key: RABBITMQ_URL
+        sync: false

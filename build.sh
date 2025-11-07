@@ -11,7 +11,7 @@ pip install --upgrade pip
 python manage.py collectstatic --no-input
 
 # Create an admin user
-python manage.py initadmin
+# python manage.py initadmin
 
 # Apply any outstanding database migrations
 python manage.py migrate

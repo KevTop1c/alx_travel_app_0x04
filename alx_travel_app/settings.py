@@ -206,7 +206,7 @@ CORS_ALLOWED_HEADERS = [
 
 # RabbitMQ Broker Configuration
 CELERY_BROKER_URL = config(
-    "CELERY_BROKER_URL", default="amqp://guest:guest@localhost:5672//"
+    "RABBITMQ_URL", default="amqp://guest:guest@localhost:5672//"
 )
 
 # Result Backend (use RabbitMQ RPC or Django DB)
