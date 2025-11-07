@@ -20,6 +20,7 @@ from .views import (
     CancelPaymentView,
     LoginView,
     RegisterView,
+    HomePageView,
 )
 
 router = DefaultRouter()
@@ -37,6 +38,7 @@ urlpatterns = [
     path("token/refresh/", TokenRefreshView.as_view(), name="token_refresh"),
     path("register/", RegisterView.as_view(), name="register"),
     path("login/", LoginView.as_view(), name="login"),
+    path("home/", HomePageView.as_view(), name="home"),
     # Payment endpoints
     path("payments/initiate/", InitiatePaymentView.as_view(), name="initiate-payment"),
     path("payments/verify/", VerifyPaymentView.as_view(), name="verify-payment"),

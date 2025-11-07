@@ -1040,5 +1040,14 @@ class CancelPaymentView(generics.GenericAPIView):
         )
 
 
+class HomePageView(generics.ListAPIView):
+    """
+    Returns a list of all available properties.
+    Only authenticated users can access this endpoint.
+    """
+    queryset = Property.objects.all()
+    serializer_class = PropertyListSerializer
+    permission_classes = [IsAuthenticated]
+
 # class CustomTokenObtainPairView(TokenObtainPairView):
 #     serializer_class = CustomTokenObtainPairSerializer
