@@ -280,8 +280,8 @@ BASE_URL = env("BASE_URL", default="")
 # Email configuration
 EMAIL_BACKEND = config("EMAIL_BACKEND", default="django.core.mail.backends.smtp.EmailBackend")
 EMAIL_HOST = config("EMAIL_HOST", default="live.smtp.mailtrap.io")
-EMAIL_PORT = config("EMAIL_PORT", cast=int)
-EMAIL_USE_TLS = config("EMAIL_USE_TLS", cast=bool)
+EMAIL_PORT = config("EMAIL_PORT", cast=int, default="587")
+EMAIL_USE_TLS = config("EMAIL_USE_TLS", cast=bool, default="True")
 
 # Email Authentication
 EMAIL_HOST_USER = config("EMAIL_HOST_USER", default="api")
