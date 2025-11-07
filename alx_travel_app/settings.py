@@ -34,7 +34,9 @@ SECRET_KEY = env("SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = env("DEBUG")
 
-ALLOWED_HOSTS = env.list("ALLOWED_HOSTS", default='localhost,127.0.0.1,.onrender.com')
+ALLOWED_HOSTS = config(
+    "ALLOWED_HOSTS", default="localhost,127.0.0.1,.onrender.com"
+).split(",")
 
 
 # Application definition
@@ -99,14 +101,14 @@ IS_RENDER = os.environ.get("RENDER", None) is not None
 
 if IS_RENDER:
     DATABASES = {
-    "default": dj_database_url.config(
-        # Replace this value with your local database's connection string.
-        default=os.getenv(
-            "DATABASE_URL",
-        ),
-        conn_max_age=600,
-    )
-}
+        "default": dj_database_url.config(
+            # Replace this value with your local database's connection string.
+            default=os.getenv(
+                "DATABASE_URL",
+            ),
+            conn_max_age=600,
+        )
+    }
 else:
     DATABASES = {
         "default": {
@@ -278,7 +280,9 @@ CHAPA_SECRET_KEY = env("CHAPA_SECRET_KEY", default="")
 BASE_URL = env("BASE_URL", default="")
 
 # Email configuration
-EMAIL_BACKEND = config("EMAIL_BACKEND", default="django.core.mail.backends.smtp.EmailBackend")
+EMAIL_BACKEND = config(
+    "EMAIL_BACKEND", default="django.core.mail.backends.smtp.EmailBackend"
+)
 EMAIL_HOST = config("EMAIL_HOST", default="live.smtp.mailtrap.io")
 EMAIL_PORT = config("EMAIL_PORT", cast=int, default="587")
 EMAIL_USE_TLS = config("EMAIL_USE_TLS", cast=bool, default="True")
