@@ -5,8 +5,10 @@ from rest_framework.response import Response
 from rest_framework.decorators import action
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from django.utils import timezone
+
 # from django.contrib.auth import get_user_model
 from .models import Property, Booking, Review, Payment, User
+
 # from .tokens import CustomAccessToken
 
 # User = get_user_model()
@@ -270,7 +272,7 @@ class BookingDetailSerializer(serializers.ModelSerializer):
         booking = Booking.objects.create(
             listing_id=property_instance,
             user=self.context["request"].user,
-            **validated_data
+            **validated_data,
         )
         return booking
 
@@ -564,6 +566,53 @@ class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
         }
         return data
 
+    def create(self, validated_data):
+        raise NotImplementedError("This serializer is read-only")
+
+    def update(self, instance, validated_data):
+        raise NotImplementedError("This serializer is read-only")
+
+
+class CancelPaymentSerializer(serializers.Serializer):
+    """Serializer for cancelled payment stat"""
+    payment_id = serializers.IntegerField(required=True)
+    reason = serializers.CharField(required=False, max_length=255)
+
+    def create(self, validated_data):
+        raise NotImplementedError("This serializer is read-only")
+
+    def update(self, instance, validated_data):
+        raise NotImplementedError("This serializer is read-only")
+
+
+class CancelPaymentResponseSerializer(serializers.Serializer):
+    """Serializer for cancelled payment response"""
+    status = serializers.CharField()
+    message = serializers.CharField()
+    payment_id = serializers.IntegerField()
+
+    def create(self, validated_data):
+        raise NotImplementedError("This serializer is read-only")
+
+    def update(self, instance, validated_data):
+        raise NotImplementedError("This serializer is read-only")
+
+
+class RetryPaymentSerializer(serializers.Serializer):
+    """Serializer for retry payment stat"""
+    payment_id = serializers.IntegerField(required=True)
+
+    def create(self, validated_data):
+        raise NotImplementedError("This serializer is read-only")
+
+    def update(self, instance, validated_data):
+        raise NotImplementedError("This serializer is read-only")
+
+class RetryPaymentResponseSerializer(serializers.Serializer):
+    """Serializer for retried payment response"""
+    status = serializers.CharField()
+    message = serializers.CharField()
+    payment_id = serializers.IntegerField()
 
     def create(self, validated_data):
         raise NotImplementedError("This serializer is read-only")

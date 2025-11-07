@@ -3,6 +3,7 @@
 import logging
 import traceback
 import sys
+from drf_yasg.utils import swagger_auto_schema
 from rest_framework import viewsets, status, generics
 from rest_framework.decorators import action, api_view, permission_classes
 from rest_framework.response import Response
@@ -27,6 +28,10 @@ from .serializers import (
     BookingWithPaymentSerializer,
     PaymentSummarySerializer,
     CustomTokenObtainPairSerializer,
+    RetryPaymentResponseSerializer,
+    RetryPaymentSerializer,
+    CancelPaymentResponseSerializer,
+    CancelPaymentSerializer,
 )
 from .services.chapa_service import ChapaPaymentService
 from .tasks import (
@@ -116,6 +121,14 @@ class BookingViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         """Return bookings for the authenticated user"""
+        # Guard for Swagger schema generation
+        if getattr(self, "swagger_fake_view", False):
+            return Booking.objects.none()
+
+        # Check if user is authenticated
+        if not self.request.user.is_authenticated:
+            return Booking.objects.none()
+
         return (
             Booking.objects.filter(user=self.request.user)
             .select_related("listing_id", "listing_id__host", "user")
@@ -132,6 +145,10 @@ class BookingViewSet(viewsets.ModelViewSet):
         """
         Create a new booking and send confirmation email asynchronously
         """
+        # Guard for Swagger schema generation
+        if getattr(self, "swagger_fake_view", False):
+            return Response()
+
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
 
@@ -160,8 +177,26 @@ class BookingViewSet(viewsets.ModelViewSet):
             headers=headers,
         )
 
+    def list(self, request, *args, **kwargs):
+        """List all bookings"""
+        # Guard for Swagger schema generation
+        if getattr(self, "swagger_fake_view", False):
+            return Response()
+        return super().list(request, *args, **kwargs)
+
+    def retrieve(self, request, *args, **kwargs):
+        """Retrieve a specific booking"""
+        # Guard for Swagger schema generation
+        if getattr(self, "swagger_fake_view", False):
+            return Response()
+        return super().retrieve(request, *args, **kwargs)
+
     def update(self, request, *args, **kwargs):
         """Update a booking"""
+        # Guard for Swagger schema generation
+        if getattr(self, "swagger_fake_view", False):
+            return Response()
+
         partial = kwargs.pop("partial", False)
         instance = self.get_object()
 
@@ -180,8 +215,19 @@ class BookingViewSet(viewsets.ModelViewSet):
             {"message": "Booking updated successfully", "booking": serializer.data}
         )
 
+    def partial_update(self, request, *args, **kwargs):
+        """Partially update a booking"""
+        # Guard for Swagger schema generation
+        if getattr(self, "swagger_fake_view", False):
+            return Response()
+        return super().partial_update(request, *args, **kwargs)
+
     def destroy(self, request, *args, **kwargs):
         """Delete a booking"""
+        # Guard for Swagger schema generation
+        if getattr(self, "swagger_fake_view", False):
+            return Response()
+
         instance = self.get_object()
 
         # Verify ownership
@@ -275,6 +321,10 @@ class BookingViewSet(viewsets.ModelViewSet):
 
         GET /api/bookings/{id}/status/
         """
+        # Guard for Swagger schema generation
+        if getattr(self, "swagger_fake_view", False):
+            return Response()
+
         booking = self.get_object()
 
         # Verify ownership
@@ -312,6 +362,10 @@ class BookingViewSet(viewsets.ModelViewSet):
 
         GET /api/bookings/my_bookings/
         """
+        # Guard for Swagger schema generation
+        if getattr(self, "swagger_fake_view", False):
+            return Response()
+
         queryset = self.get_queryset()
 
         # Filter by status if provided
@@ -827,7 +881,17 @@ class RetryPaymentView(generics.GenericAPIView):
     """
 
     permission_classes = [IsAuthenticated]
+    serializer_class = RetryPaymentSerializer
 
+    @swagger_auto_schema(
+        request_body=RetryPaymentSerializer,
+        responses={
+            200: RetryPaymentResponseSerializer,
+            400: "Bad Request",
+            404: "Payment not found",
+        },
+        operation_description="Retry a failed payment transaction",
+    )
     def post(self, request, transaction_id):
         # Guard for Swagger schema generation
         if getattr(self, "swagger_fake_view", False):
@@ -927,7 +991,17 @@ class CancelPaymentView(generics.GenericAPIView):
     """
 
     permission_classes = [IsAuthenticated]
+    serializer_class = CancelPaymentSerializer
 
+    @swagger_auto_schema(
+        request_body=CancelPaymentSerializer,
+        responses={
+            200: CancelPaymentResponseSerializer,
+            400: "Bad Request",
+            404: "Payment not found",
+        },
+        operation_description="Cancel a payment transaction",
+    )
     def post(self, request, transaction_id):
         # Guard for Swagger schema generation
         if getattr(self, "swagger_fake_view", False):
