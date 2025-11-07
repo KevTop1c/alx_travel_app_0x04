@@ -1,6 +1,7 @@
 """Module imports for viewsets"""
 
 import logging
+import traceback
 from rest_framework import viewsets, status, generics
 from rest_framework.decorators import action, api_view, permission_classes
 from rest_framework.response import Response
@@ -459,17 +460,25 @@ class InitiatePaymentView(generics.CreateAPIView):
             "logo": "",  # Add your logo URL here if available
         }
 
-        result = chapa_service.initialize_payment(
-            amount=float(payment.amount),
-            email=payment.email,
-            first_name=payment.first_name,
-            last_name=payment.last_name,
-            tx_ref=payment.transaction_id,
-            callback_url=callback_url,
-            return_url=return_url,
-            phone_number=payment.phone_number if payment.phone_number else None,
-            customization=customization,
-        )
+        try:
+            result = chapa_service.initialize_payment(
+                amount=float(payment.amount),
+                email=payment.email,
+                first_name=payment.first_name,
+                last_name=payment.last_name,
+                tx_ref=payment.transaction_id,
+                callback_url=callback_url,
+                return_url=return_url,
+                phone_number=payment.phone_number if payment.phone_number else None,
+                customization=customization,
+            )
+        except Exception as e:
+            logger.exception("Payment initialization failed: %s", e)
+            print("TRACEBACK:", traceback.format_exc())
+            return Response(
+                {"error": "Payment initialization failed", "details": str(e)},
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            )
 
         logger.error("Chapa Init Result: %s", result)
 
