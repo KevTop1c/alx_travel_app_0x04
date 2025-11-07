@@ -21,7 +21,7 @@ services:
       - key: WEB_CONCURRENCY
         value: 4
       - key: CELERY_BROKER_URL
-        sync: false
+        value: amqp://guest:guest@rabbitmq:5672//
 
   - type: pserv
     name: rabbitmq
@@ -47,7 +47,7 @@ services:
           name: alxtraveldb
           property: connectionString
       - key: CELERY_BROKER_URL
-        sync: false
+        value: amqp://guest:guest@rabbitmq:5672//
 
   - type: worker
     name: celery-beat
@@ -61,4 +61,4 @@ services:
           name: alxtraveldb
           property: connectionString
       - key: CELERY_BROKER_URL
-        sync: false
+        value: amqp://guest:guest@rabbitmq:5672//
