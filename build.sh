@@ -13,5 +13,7 @@ python manage.py collectstatic --no-input
 # Create an admin user
 # python manage.py initadmin
 
+python manage.py collectstatic --noinput
+
 # Apply any outstanding database migrations
 python manage.py migrate
